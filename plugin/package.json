@@ -1,0 +1,26 @@
+{
+  "name": "opencode-status-bar",
+  "version": "0.1.0",
+  "description": "Local session status bridge for OpenCode Status Bar on macOS",
+  "license": "MIT",
+  "author": "Ilya (https://github.com/yiaany)",
+  "repository": "github:yiaany/opencode-status-bar",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./gui-experimental": "./gui-experimental.cjs"
+  },
+  "files": [
+    "src",
+    "gui-experimental.cjs",
+    "README.md"
+  ],
+  "dependencies": {
+    "@opencode/plugin": "2.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  },
+  "scripts": { "check": "tsc --noEmit", "test": "node --test tests/*.test.cjs" }
+}

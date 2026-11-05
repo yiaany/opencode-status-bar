@@ -1,0 +1,29 @@
+name: Verify
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: plugin/package-lock.json
+      - run: npm ci --prefix plugin
+      - run: npm run check --prefix plugin
+      - run: npm test --prefix plugin
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build.sh --dmg
+      - run: plutil -lint "build/OpenCode Status Bar.app/Contents/Info.plist"
+      - run: codesign --verify --deep --strict "build/OpenCode Status Bar.app"
+      - run: hdiutil verify build/OpenCodeStatusBar.dmg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OpenCodeStatusBar
+          path: build/OpenCodeStatusBar.dmg
